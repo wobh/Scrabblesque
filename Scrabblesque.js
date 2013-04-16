@@ -14,6 +14,10 @@
 	  'q': 10, 'z': 10
 	};
 
+	var get_letter_score(letter) {
+		return letter_scores[letter.toLowerCase()];
+	};
+
 })();
 
 
