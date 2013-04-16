@@ -14,19 +14,18 @@
 	'q': 10, 'z': 10
     };
 
-    var get_letter_score(letter) {
+    var get_letter_score = function (letter) {
+	// letter should be a single character string
 	return letter_scores[letter.toLowerCase()];
     };
     
-    var get_word_score(word) {
+    var get_word_score = function (word) {
+	// word should be a string
 	var score = 0;
 	for (var i=0, len=word.length; i < len; i++) {
 	    score += get_letter_score(word[i]);
 	};
 	return score;
     };
-    
+
 })();
-
-
-
