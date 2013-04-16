@@ -1,7 +1,7 @@
 // Scrabblesque
 // Scabble-like game in javascript
 
-(function() {
+var Scrabblesque = (function() {
 
     var letter_scores = {
 	'a':  1, 'e':  1, 'i': 1, 'o': 1, 'u': 1,
@@ -28,4 +28,52 @@
 	return score;
     };
 
+
+    // The following four functions return correct bonus scores but
+    // are really defined for the sake of the switch statement in
+    // get_total_score.
+
+    var double_letter_score = function (letter) {
+	return get_letter_score(letter);
+    };
+
+    var triple_letter_score = function (letter) {
+	return get_letter_score(letter) * 2;
+    };
+
+    var double_word_score = function (word) {
+	return get_word_score(word);
+    }; // FIXME: We probably won't even use this.
+
+    var triple_word_score = function (word) {
+	return get_word_score(word) * 2;
+    }; // FIXME: We probably won't even use this.
+
+    
+    // Calculate the total score of a word.
+    
+    var get_total_score = function (word, bonuses) {
+	// Bonuses should be a hash of { letter_position: bonus_function }
+	var base_score = get_word_score(word);
+	var bonus_score = 0;
+	for (letter_position in bonuses) {
+	    switch (bonuses[letter_position]) {
+	    case double_letter_score:
+		bonus_score += double_letter_score(word[letter_position]);
+		break;
+	    case double_word_score:
+		bonus_score += base_score; // double_word_score(word);
+		break;
+	    case triple_letter_score:
+		bonus_score += triple_letter_score(word[letter_position]);
+		break;
+	    case triple_word_score:
+		bonus_score += base_score * 2;
+		break;
+	    };
+	};
+	return base_score + bonus_score;
+    };
+
+    return { get_total_score: get_total_score };
 })();
