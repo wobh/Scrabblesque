@@ -18,6 +18,14 @@
 		return letter_scores[letter.toLowerCase()];
 	};
 
+	var get_word_score(word) {
+		var score = 0;
+		for (var i=0, len=word.length; i < len; i++) {
+			score += get_letter_score(word[i]);
+		};
+		return score;
+	};
+
 })();
 
 
