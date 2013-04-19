@@ -57,23 +57,27 @@ var Scrabblesque = (function() {
 	var base_score = get_word_score(word);
 	var bonus_score = 0;
 	for (letter_position in bonuses) {
-	    switch (bonuses[letter_position]) {
-	    case double_letter_score:
-		bonus_score += double_letter_score(word[letter_position]);
-		break;
-	    case double_word_score:
-		bonus_score += base_score; // double_word_score(word);
-		break;
-	    case triple_letter_score:
-		bonus_score += triple_letter_score(word[letter_position]);
-		break;
-	    case triple_word_score:
-		bonus_score += base_score * 2;
-		break;
+	    if bonuses.hasOwnProperty(letter_position) {
+		switch (bonuses[letter_position]) {
+		case double_letter_score:
+		    bonus_score += double_letter_score(word[letter_position]);
+		    break;
+		case double_word_score:
+		    bonus_score += base_score; // double_word_score(word);
+		    break;
+		case triple_letter_score:
+		    bonus_score += triple_letter_score(word[letter_position]);
+		    break;
+		case triple_word_score:
+		    bonus_score += base_score * 2; // triple_word_score(word);
+		    break;
+		};
 	    };
 	};
 	return base_score + bonus_score;
     };
 
+// get_total_score("cabbage", { 1: double_letter_score, 4: triple_word_score })
+// 
     return { get_total_score: get_total_score };
 })();
