@@ -1,7 +1,7 @@
 // Scrabblesque
 // Scabble-like game in javascript
 
-var Scrabblesque = (function() {
+var Scrabblesque = (function () {
 
     var letter_scores = {
 	'a':  1, 'e':  1, 'i': 1, 'o': 1, 'u': 1,
@@ -13,7 +13,7 @@ var Scrabblesque = (function() {
 	'j':  8, 'x':  8,
 	'q': 10, 'z': 10
     };
-
+    
     var get_letter_score = function (letter) {
 	// letter should be a single character string
 	return letter_scores[letter.toLowerCase()];
@@ -27,28 +27,28 @@ var Scrabblesque = (function() {
 	};
 	return score;
     };
-
-
+    
+    
     // The following four functions return correct bonus scores but
     // are really defined for the sake of the switch statement in
     // get_total_score.
-
+    
     var double_letter_score = function (letter) {
 	return get_letter_score(letter);
     };
-
+    
     var triple_letter_score = function (letter) {
 	return get_letter_score(letter) * 2;
     };
-
+    
     var double_word_score = function (word) {
 	return get_word_score(word);
     }; // FIXME: We probably won't even use this.
-
+    
     var triple_word_score = function (word) {
 	return get_word_score(word) * 2;
     }; // FIXME: We probably won't even use this.
-
+    
     
     // Calculate the total score of a word.
     
@@ -57,7 +57,7 @@ var Scrabblesque = (function() {
 	var base_score = get_word_score(word);
 	var bonus_score = 0;
 	for (letter_position in bonuses) {
-	    if bonuses.hasOwnProperty(letter_position) {
+	    if (bonuses.hasOwnProperty(letter_position)) {
 		switch (bonuses[letter_position]) {
 		case double_letter_score:
 		    bonus_score += double_letter_score(word[letter_position]);
@@ -76,8 +76,14 @@ var Scrabblesque = (function() {
 	};
 	return base_score + bonus_score;
     };
-
-// get_total_score("cabbage", { 1: double_letter_score, 4: triple_word_score })
-// 
-    return { get_total_score: get_total_score };
+    return { get_total_score:     get_total_score,
+	     double_letter_score: double_letter_score,
+	     triple_letter_score: triple_letter_score,
+	     double_word_score:   double_word_score,
+	     triple_word_score:   triple_word_score
+	   };
 })();
+
+Scrabblesque.get_total_score('cabbage', 
+			     { 1: Scrabblesque.double_letter_score, 
+			       4: Scrabblesque.triple_word_score });
